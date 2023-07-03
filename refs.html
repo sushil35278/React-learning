@@ -25,27 +25,58 @@
 
 class Note extends React.Component {
 
-    editing(){
-        alert( 'editing' )
+    constructor(props){
+        super(props);
+        this.state = {
+            editing: false
+        }
     }
 
-    deleting(){
+    edit = () => {
+        this.setState( {editing: true })
+    }
+
+    save = () => {
+        var val = this.refs.newText.value
+        alert( "The value will be stored as: " + val )
+        this.setState( {editing: false})
+    }
+
+    delete(){
         alert( 'deleting' )
     }
 
-    render(){
-        return (
+    renderForm = () => {
+        return(
+            <div class="note">
+                <textarea ref="newText"></textarea>
+                <button onClick={this.save}>Save</button>
+            </div>
+        )
+    }
+
+    renderDispalay = () => {
+        return(
             <div className="note">
                 <p>{this.props.children}</p>
                 <span>
-                    <button onClick={this.editing}>Edit</button>
-                    <button onClick={this.deleting}>X</button>
+                    <button onClick={this.edit}>Edit </button>
+                    <button onClick={this.delete}>Delete </button>
                 </span>
             </div>
-        );
+        )
+
+    }
+
+    render() {
+        if( this. state.editing){
+            return this.renderForm()
+        }
+        else{
+            return this.renderDispalay()
+        }
     }
 }
-
 ReactDOM.render(<Note>Hello World!</Note>, document.getElementById('react-container'))
 </script>
 </body>
